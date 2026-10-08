@@ -6,6 +6,7 @@ A super simple FastAPI application that allows students to view and sign up for 
 
 - View all available extracurricular activities
 - Sign up for activities
+- View participants and unregister them using the delete icon on each activity card
 
 ## Getting Started
 
@@ -31,6 +32,30 @@ A super simple FastAPI application that allows students to view and sign up for 
 | ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
 | GET    | `/activities`                                                     | Get all activities with their details and current participant count |
 | POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity                                             |
+| DELETE | `/activities/{activity_name}/signup?email=student@mergington.edu` | Unregister a participant from an activity                            |
+
+Unregistering returns a confirmation message. An unknown activity or a student
+who is not registered returns HTTP 404. Participant lists and availability
+refresh after successful signups and removals.
+
+## Backend Tests
+
+From the repository root, install the dependencies and run the pytest suite:
+
+```sh
+python -m pip install -r requirements.txt
+python -m pytest -q
+```
+
+Tests live in [tests](../tests) and use FastAPI's `TestClient`, so no running
+server is required. Every test follows Arrange-Act-Assert (AAA): prepare its
+inputs, make the HTTP request, then verify the response and resulting state.
+Shared fixtures provide isolated activity data for each test and restore the
+application's original data afterward.
+
+The suite covers activity retrieval, the root redirect, signup, duplicate
+registration rejection, unregistering, missing email parameters, and registration
+state integrity. Pytest discovery is also enabled in VS Code's Testing panel.
 
 ## Data Model
 
