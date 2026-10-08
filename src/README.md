@@ -38,6 +38,25 @@ Unregistering returns a confirmation message. An unknown activity or a student
 who is not registered returns HTTP 404. Participant lists and availability
 refresh after successful signups and removals.
 
+## Backend Tests
+
+From the repository root, install the dependencies and run the pytest suite:
+
+```sh
+python -m pip install -r requirements.txt
+python -m pytest -q
+```
+
+Tests live in [tests](../tests) and use FastAPI's `TestClient`, so no running
+server is required. Every test follows Arrange-Act-Assert (AAA): prepare its
+inputs, make the HTTP request, then verify the response and resulting state.
+Shared fixtures provide isolated activity data for each test and restore the
+application's original data afterward.
+
+The suite covers activity retrieval, the root redirect, signup, duplicate
+registration rejection, unregistering, missing email parameters, and registration
+state integrity. Pytest discovery is also enabled in VS Code's Testing panel.
+
 ## Data Model
 
 The application uses a simple data model with meaningful identifiers:
